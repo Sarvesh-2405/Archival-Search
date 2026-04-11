@@ -1,0 +1,125 @@
+.searchContainer {
+  background: white;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  border-radius: 8px;
+  box-shadow: var(--shadow-sm);
+}
+
+.searchBar {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+.input {
+  flex: 1;
+  padding: 0.875rem 1rem;
+  font-size: 1rem;
+  border: 2px solid var(--border-color);
+  border-radius: 6px;
+  transition: var(--transition);
+  font-family: 'Inter', sans-serif;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--gold-accent);
+  box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.1);
+}
+
+.searchButton {
+  padding: 0.875rem 1.5rem;
+  background: var(--gold-accent);
+  color: white;
+  border-radius: 6px;
+  font-weight: 600;
+  transition: var(--transition);
+}
+
+.searchButton:hover {
+  background: #b8931e;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.clearButton {
+  padding: 0.875rem 1.5rem;
+  background: #e0e0e0;
+  color: var(--text-dark);
+  border-radius: 6px;
+  font-weight: 600;
+  transition: var(--transition);
+}
+
+.clearButton:hover {
+  background: #d0d0d0;
+}
+
+.chipContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--gold-light);
+  color: var(--text-dark);
+  border-radius: 20px;
+  font-size: 0.875rem;
+  animation: fadeIn 0.2s ease;
+}
+
+.chipClose {
+  cursor: pointer;
+  font-weight: bold;
+  opacity: 0.7;
+  transition: var(--transition);
+}
+
+.chipClose:hover {
+  opacity: 1;
+  color: var(--primary-navy);
+}
+
+.emptyMessage {
+  text-align: center;
+  padding: 2rem 1rem;
+  color: var(--text-light);
+}
+
+.emptyIcon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 640px) {
+  .searchContainer {
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .searchBar {
+    flex-direction: column;
+  }
+
+  .searchButton,
+  .clearButton {
+    width: 100%;
+  }
+
+  .chipContainer {
+    gap: 0.4rem;
+  }
+
+  .chip {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.8rem;
+  }
+}

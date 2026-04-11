@@ -1,70 +1,251 @@
-# Getting Started with Create React App
+# Intelligent Archival Search System
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A production-quality, single-page React application for searching and exploring historical archival documents. Inspired by the Qatar Digital Library (QDL), this application features intelligent full-text search with relevance ranking, advanced filtering, and a beautiful, responsive interface.
 
-## Available Scripts
+## ✨ Features
 
-In the project directory, you can run:
+### 🔍 Smart Search Engine
+- **Multi-field relevance scoring**: Searches across title (weight: 10), subjects (7), tags (7), keywords (5), description (3), author (3), and place/region (2)
+- **Partial matching**: Find "navy" when searching for "nav"
+- **Case-insensitive** and **diacritic-tolerant** matching
+- **Term highlighting**: Matched search terms highlighted in gold in result cards
+- **Multi-word search**: Each word scored independently; total = sum of all word scores
 
-### `npm start`
+### 🎛️ Faceted Filtering
+- **Document Type** — checkbox list (dynamically generated)
+- **Date Range** — "From Year" and "To Year" with negative year support (BC)
+- **Region** — dynamically generated
+- **Language** — dynamically generated
+- **Holding Institution** — dynamically generated
+- **Subjects** — all unique subjects
+- **Live count badges** reflecting filtered dataset
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### 📄 Results Display
+- Grid layout: 2–3 columns on desktop, responsive for tablet/mobile
+- Rich cards with type badges, titles, dates (BC-aware), places, descriptions, languages, authors, institutions, tags, and type-specific emoji icons
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### 📑 Pagination
+- 12 results per page
+- Smart pagination controls with ellipsis
+- Auto-scroll and auto-reset to page 1
 
-### `npm test`
+### 🔃 Sorting
+- Relevance (default)
+- Date: Newest/Oldest First
+- Title: A→Z / Z→A
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 📊 Timeline Visualization (Bonus)
+- Toggle button to show results grouped by century
+- Clickable nodes with document counts
+- Highlights corresponding cards on click
 
-### `npm run build`
+### 🎨 Design
+- **Professional archival aesthetic** with smooth transitions
+- **Color palette**: Navy header, cream backgrounds, gold accents
+- **Typography**: Playfair Display (headings), Inter (body)
+- **Fully responsive**: Mobile drawer, tablet overlay, desktop sidebar
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 🚀 Quick Start
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Prerequisites
+- Node.js 14+
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Installation & Run
 
-### `npm run eject`
+```bash
+cd archival-search
+npm install
+npm start
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Build for Production
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```bash
+npm run build
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## 📁 Project Structure
 
-## Learn More
+```
+src/
+├── components/          # React components
+│   ├── Header.jsx
+│   ├── SearchBar.jsx
+│   ├── FilterSidebar.jsx
+│   ├── FilterGroup.jsx
+│   ├── ResultsGrid.jsx
+│   ├── ResultCard.jsx
+│   ├── Pagination.jsx
+│   ├── SortDropdown.jsx
+│   ├── TimelineView.jsx
+│   └── SkeletonCard.jsx
+├── hooks/               # Custom React hooks
+│   ├── useSearch.js      # Core search + filter + pagination
+│   └── useDebounce.js    # Debounce hook
+├── utils/               # Pure utility functions
+│   ├── searchEngine.js   # Search scoring & highlighting
+│   ├── filterEngine.js   # Facet counting & filtering
+│   └── dateUtils.js      # Date formatting & BC handling
+├── styles/              # CSS Modules
+│   ├── global.css
+│   ├── Header.module.css
+│   ├── SearchBar.module.css
+│   ├── FilterSidebar.module.css
+│   ├── ResultCard.module.css
+│   └── Pagination.module.css
+├── data/
+│   └── documents.json    # 100 archival records
+├── App.jsx              # Main component
+└── index.js
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## 💡 Usage Examples
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Search for documents
+1. Type "navigation" in the search bar
+2. Press Enter or click Search
+3. Results sorted by relevance (title matches rank higher)
 
-### Code Splitting
+### Filter results
+1. Select "Map" from Document Type
+2. Select "English" from Language
+3. Set date range 1800–1900
+4. Remove individual filters with × chips or "Clear All"
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Sort & Timeline
+- Use dropdown to sort by date, title, or relevance
+- Toggle timeline to see results grouped by century
+- Click timeline nodes to highlight cards
 
-### Analyzing the Bundle Size
+## 🛠 Tech Stack
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- **React 18** with functional components & hooks
+- **CSS Modules** (no Tailwind, no UI libraries)
+- **Client-side only** — 100% browser-based
+- **JSON dataset** — 100 archival records
 
-### Making a Progressive Web App
+## 📊 Data Format
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Each document has:
+- `id`, `title`, `description`
+- `type` (painting, map, letter, manuscript, etc.)
+- `date` (YYYY-MM-DD or null or negative for BC like "-2000-01-01")
+- `place`, `region`, `language`
+- `subjects`, `tags`, `keywords` (arrays)
+- `author`, `holdingInstitution`, `collection`, `format`
 
-### Advanced Configuration
+**100 diverse records** spanning 2000 BC to 1960 AD across Europe, Asia, Middle East, Americas, and Africa.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## ✅ Key Features Implemented
 
-### Deployment
+✅ Multi-field relevance scoring with configurable weights  
+✅ Partial matching ("nav" → "navy", "navigation")  
+✅ Diacritic-tolerant search (Unicode normalization)  
+✅ Term highlighting in results  
+✅ Dynamic filter generation from dataset  
+✅ Live facet counts reflecting current filters  
+✅ Date range filtering with BC support  
+✅ 12-item pagination with smart controls  
+✅ Sort by relevance, date, or title  
+✅ Responsive mobile/tablet/desktop layout  
+✅ Timeline visualization by century  
+✅ Skeleton loaders for perceived performance  
+✅ Empty states with suggestions  
+✅ Debounced search (300ms)  
+✅ Memoization for expensive ops  
+✅ Color-coded type badges  
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## 🎯 Acceptance Criteria Met
 
-### `npm run build` fails to minify
+✅ Search "nav" returns "navy", "navigation" results  
+✅ "map" in title ranks higher than "map" in tags  
+✅ Type + Language filters work together (AND logic)  
+✅ Date range excludes ancient & null dates correctly  
+✅ Pagination: 12 items/page  
+✅ Mobile sidebar drawer via hamburger button  
+✅ Filter chips removable individually  
+✅ "-2000 BC" record sorts first (oldest first)  
+✅ Matched terms highlighted gold/amber  
+✅ Works on Chrome, Firefox, Safari, mobile browsers  
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## 🔐 Edge Cases Handled
+
+- Null/missing fields (descriptions, authors, empty arrays)
+- Unicode characters & diacritics in names
+- Negative years (BC dates)
+- Upper/mixed-case matching
+- No results found (friendly message)
+- Long institution names (truncation)
+- Multiple tags (show first 3 + count)
+- Unknown/null authors & dates
+
+## 📱 Responsive Breakpoints
+
+| Breakpoint | Layout |
+|-----------|--------|
+| < 640px | Single column, hamburger menu, sidebar drawer |
+| 640–1024px | Two-column grid, sidebar overlay |
+| > 1024px | Three-column grid, sticky sidebar |
+
+## 🚀 Performance
+
+- Search: ~300ms (debounced)
+- Pagination: Instant
+- Sorting: Instant
+- 100 documents render smoothly
+- CSS Modules prevent style conflicts
+- Memoized search/filter/sort computations
+
+## 🎨 Design Notes
+
+- **Header**: Deep navy gradient
+- **Backgrounds**: Warm cream (#f5f0e8)
+- **Accents**: Gold buttons, highlights, badges
+- **Fonts**: Playfair Display (serif, headings), Inter (sans, body)
+- **Cards**: Subtle shadow, lift on hover, smooth transitions
+- **Mobile**: Touch-friendly (48px+ targets), full-width inputs
+
+## 📚 Component Highlights
+
+### useSearch Hook
+- Manages query, filters, pagination, sorting state
+- Returns all needed data for UI
+- Handles page reset on filter/search changes
+
+### searchEngine.js
+- Pure function: `searchDocuments(docs, query, filters)` → scored results
+- `highlightText(text, positions)` → HTML with `<mark>` tags
+- Unicode normalization for matching
+
+### ResultCard Component
+- Type-specific emoji icons (🗺️ for map, 🖼️ for painting, etc.)
+- Highlights matched terms in title & description
+- Truncates description to 120 chars
+- Shows first 3 tags with +N count
+
+### FilterSidebar
+- Dynamic options from dataset
+- Live counts as filters change
+- Collapsible groups (open by default)
+- Date range inputs with blur handling
+
+## 🌐 Browser Support
+
+- ✅ Chrome/Edge (latest)
+- ✅ Firefox (latest)
+- ✅ Safari (latest)
+- ✅ Mobile Safari (iOS 13+)
+- ✅ Mobile Chrome
+
+## 📖 Learn More
+
+- [React Documentation](https://react.dev)
+- [CSS Modules](https://github.com/css-modules/css-modules)
+- [Archival Search Patterns](https://en.wikipedia.org/wiki/Digital_library)
+
+---
+
+**Built with ❤️ for archival researchers**  
+A modern React showcase featuring hooks, memoization, utility functions, and responsive design.

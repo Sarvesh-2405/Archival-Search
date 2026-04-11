@@ -1,0 +1,217 @@
+.card {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.cardHeader {
+  padding: 1.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.thumbnail {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, var(--gold-light), var(--gold-accent));
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.typeBadge {
+  display: inline-block;
+  padding: 0.35rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.title {
+  font-size: 1.2rem;
+  font-family: 'Playfair Display', serif;
+  color: var(--primary-navy);
+  margin-bottom: 0.5rem;
+  line-height: 1.3;
+  word-break: break-word;
+}
+
+.title mark {
+  background-color: var(--gold-light);
+}
+
+.meta {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+.cardBody {
+  padding: 1rem 1.5rem;
+  flex-grow: 1;
+}
+
+.description {
+  color: var(--text-light);
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  max-height: 3em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.description mark {
+  background-color: var(--gold-light);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.tag {
+  display: inline-block;
+  padding: 0.3rem 0.6rem;
+  background: var(--gold-light);
+  color: var(--text-dark);
+  border-radius: 3px;
+  font-size: 0.75rem;
+}
+
+.cardFooter {
+  padding: 0.75rem 1.5rem 1.5rem;
+  border-top: 1px solid var(--border-color);
+  font-size: 0.8rem;
+  color: var(--text-light);
+}
+
+/* Type badge colors */
+.type_painting {
+  background: #fce4ec;
+  color: #c2185b;
+}
+
+.type_map {
+  background: #e3f2fd;
+  color: #1565c0;
+}
+
+.type_letter {
+  background: #f3e5f5;
+  color: #7b1fa2;
+}
+
+.type_manuscript {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.type_drawing {
+  background: #fff3e0;
+  color: #e65100;
+}
+
+.type_photograph {
+  background: #ede7f6;
+  color: #512da8;
+}
+
+.type_diagram {
+  background: #fce4ec;
+  color: #880e4f;
+}
+
+.type_journal {
+  background: #e0f2f1;
+  color: #00695c;
+}
+
+.type_illustration {
+  background: #f1f8e9;
+  color: #558b2f;
+}
+
+.type_plan {
+  background: #eceff1;
+  color: #37474f;
+}
+
+.type_volume {
+  background: #ffe0b2;
+  color: #e65100;
+}
+
+.type_book {
+  background: #f8bbd0;
+  color: #c2185b;
+}
+
+.type_document {
+  background: #b2dfdb;
+  color: #00796b;
+}
+
+.type_artifact {
+  background: #dcedc8;
+  color: #558b2f;
+}
+
+.skeletonLoader {
+  background: linear-gradient(
+    90deg,
+    #f0f0f0 25%,
+    #e0e0e0 50%,
+    #f0f0f0 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+@media (max-width: 640px) {
+  .card {
+    border-radius: 6px;
+  }
+
+  .cardHeader {
+    padding: 1rem;
+  }
+
+  .cardBody {
+    padding: 0.8rem 1rem;
+  }
+
+  .cardFooter {
+    padding: 0.75rem 1rem 1rem;
+    font-size: 0.75rem;
+  }
+
+  .title {
+    font-size: 1rem;
+  }
+
+  .thumbnail {
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+  }
+}

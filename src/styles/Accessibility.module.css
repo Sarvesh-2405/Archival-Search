@@ -1,0 +1,186 @@
+.bar {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 999;
+}
+
+.toggle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--color-gold, #d4af37);
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: -4px 4px 12px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s;
+}
+
+.toggle:hover {
+  transform: scale(1.1);
+}
+
+.panel {
+  position: absolute;
+  bottom: 70px;
+  right: 0;
+  background: var(--color-parchment, #f4f1de);
+  border: 2px solid #8b7355;
+  border-radius: 0;
+  padding: 20px;
+  width: 280px;
+  box-shadow: -6px 6px 16px rgba(0, 0, 0, 0.4);
+  animation: slideUp 0.2s ease;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.panel h3 {
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  color: var(--primary-navy, #0f1623);
+  margin: 0 0 15px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  font-family: 'Libre Baskerville', serif;
+  font-size: 13px;
+  color: #0f1623;
+}
+
+.option input {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: var(--color-gold, #d4af37);
+}
+
+.option select {
+  flex: 1;
+  padding: 5px;
+  border: 1px solid #c9a961;
+  font-family: 'Libre Baskerville', serif;
+  font-size: 12px;
+  color: #0f1623;
+  background: white;
+}
+
+.option select:focus {
+  outline: none;
+  border-color: var(--color-gold, #d4af37);
+}
+
+.resetBtn {
+  display: block;
+  width: 100%;
+  padding: 8px;
+  margin: 10px 0;
+  background: #e8e6e1;
+  border: 1px solid #c9a961;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  color: #0f1623;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.2s;
+}
+
+.resetBtn:hover {
+  background: #dcd9d1;
+}
+
+.closeBtn {
+  display: block;
+  width: 100%;
+  padding: 8px;
+  background: var(--color-gold, #d4af37);
+  border: none;
+  color: white;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.2s;
+}
+
+.closeBtn:hover {
+  background: #c99f2e;
+}
+
+.skipLink {
+  position: fixed;
+  top: -50px;
+  left: 0;
+  background: var(--color-gold, #d4af37);
+  color: white;
+  padding: 8px 12px;
+  text-decoration: none;
+  font-family: 'Cinzel', serif;
+  font-size: 12px;
+  z-index: 10000;
+  transition: top 0.2s;
+}
+
+.skipLink:focus {
+  top: 0;
+}
+
+/* High contrast mode */
+:global(.high-contrast) {
+  --primary-navy: #000;
+  --color-parchment: #fff;
+  --color-gold: #000;
+}
+
+:global(.high-contrast) body {
+  background: white;
+  color: black;
+  border: 2px solid black;
+}
+
+:global(.high-contrast) button,
+:global(.high-contrast) input,
+:global(.high-contrast) select,
+:global(.high-contrast) textarea {
+  border: 2px solid black;
+  color: black;
+  background: white;
+}
+
+/* Text size adjustments */
+:global([data-text-size="small"]) {
+  font-size: 12px;
+}
+
+:global([data-text-size="large"]) {
+  font-size: 18px;
+}
+
+:global([data-text-size="xlarge"]) {
+  font-size: 20px;
+}
+
+/* Reduce motion */
+:global(.reduce-motion) * {
+  animation: none !important;
+  transition: none !important;
+}

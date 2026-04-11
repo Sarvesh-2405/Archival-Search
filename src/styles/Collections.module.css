@@ -1,0 +1,275 @@
+.panel {
+  padding: 20px;
+  background: var(--color-parchment, #f4f1de);
+  font-family: 'Libre Baskerville', serif;
+  margin: 20px 0;
+  border: 2px solid #8b7355;
+  box-shadow: -4px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.panel h2 {
+  font-family: 'Cinzel', serif;
+  font-size: 22px;
+  color: var(--primary-navy, #0f1623);
+  margin: 0 0 20px 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.container @media (max-width: 900px) {
+  display: block;
+}
+
+.section {
+  background: white;
+  padding: 15px;
+  border: 1px solid #c9a961;
+}
+
+.section h3 {
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  color: #0f1623;
+  margin: 0 0 12px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.createForm {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.input {
+  flex: 1;
+  padding: 8px 10px;
+  border: 1px solid #c9a961;
+  font-family: 'Libre Baskerville', serif;
+  font-size: 13px;
+  background: white;
+  color: #0f1623;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--color-gold, #d4af37);
+  box-shadow: 0 0 6px rgba(212, 175, 55, 0.3);
+}
+
+.createBtn,
+.btn {
+  padding: 8px 12px;
+  background: var(--color-gold, #d4af37);
+  color: white;
+  border: none;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.2s;
+}
+
+.createBtn:hover,
+.btn:hover {
+  background: #c99f2e;
+}
+
+.btnSecondary {
+  padding: 8px 12px;
+  background: #e8e6e1;
+  color: #0f1623;
+  border: none;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.btnSecondary:hover {
+  background: #dcd9d1;
+}
+
+.btnDanger {
+  padding: 8px 12px;
+  background: #d32f2f;
+  color: white;
+  border: none;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.btnDanger:hover {
+  background: #b71c1c;
+}
+
+.collectionsList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.collectionItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background: #faf8f3;
+  border: 1px solid #e8e6e1;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.collectionItem:hover {
+  background: #f4f1de;
+  border-color: var(--color-gold, #d4af37);
+}
+
+.collectionItem.active {
+  background: var(--color-gold, #d4af37);
+  color: white;
+}
+
+.collectionName {
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.collectionCount {
+  font-size: 11px;
+  color: #8b7355;
+}
+
+.collectionItem.active .collectionCount {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.deleteBtn {
+  background: none;
+  border: none;
+  color: #8b7355;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 0;
+  width: 20px;
+  height: 20px;
+}
+
+.deleteBtn:hover {
+  color: #d32f2f;
+}
+
+.empty {
+  padding: 15px;
+  text-align: center;
+  color: #8b7355;
+  font-size: 12px;
+  font-style: italic;
+}
+
+.documentsList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.docItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  background: #faf8f3;
+  border: 1px solid #e8e6e1;
+  gap: 8px;
+}
+
+.docInfo {
+  flex: 1;
+}
+
+.docTitle {
+  font-family: 'Cinzel', serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: #0f1623;
+}
+
+.docMeta {
+  font-size: 11px;
+  color: #8b7355;
+  margin-top: 2px;
+}
+
+.hasNote {
+  font-size: 10px;
+  color: var(--color-gold, #d4af37);
+  margin-top: 2px;
+  font-weight: 500;
+}
+
+.notesBtn,
+.removeBtn {
+  background: none;
+  border: none;
+  color: #8b7355;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 0;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.notesBtn:hover {
+  color: var(--color-gold, #d4af37);
+}
+
+.removeBtn:hover {
+  color: #d32f2f;
+}
+
+.notesEditor {
+  width: 100%;
+  min-height: 120px;
+  padding: 10px;
+  font-family: 'Libre Baskerville', serif;
+  font-size: 13px;
+  border: 1px solid #c9a961;
+  background: white;
+  color: #0f1623;
+  margin: 10px 0;
+  box-sizing: border-box;
+}
+
+.notesEditor:focus {
+  outline: none;
+  border-color: var(--color-gold, #d4af37);
+  box-shadow: 0 0 6px rgba(212, 175, 55, 0.3);
+}
+
+.notesButtons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.notesButtons .btn {
+  flex: 1;
+  min-width: 100px;
+}

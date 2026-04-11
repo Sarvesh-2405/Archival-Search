@@ -12,41 +12,8 @@
 }
 
 /* Type-specific left border colors */
-.card[data-type="painting"] {
-  border-left-color: #e8c547;
-}
-.card[data-type="map"] {
-  border-left-color: #7b68ee;
-}
-.card[data-type="letter"] {
-  border-left-color: #ff6b6b;
-}
-.card[data-type="manuscript"] {
-  border-left-color: #4ecdc4;
-}
-.card[data-type="drawing"] {
-  border-left-color: #f39c12;
-}
-.card[data-type="photograph"] {
-  border-left-color: #3498db;
-}
-.card[data-type="diagram"] {
-  border-left-color: #2ecc71;
-}
-.card[data-type="journal"] {
-  border-left-color: #e74c3c;
-}
-.card[data-type="illustration"] {
-  border-left-color: #9b59b6;
-}
-.card[data-type="plan"] {
-  border-left-color: #1abc9c;
-}
-.card[data-type="volume"] {
-  border-left-color: #34495e;
-}
-.card[data-type="book"] {
-  border-left-color: #c0392b;
+.card[data-type] {
+  border-left-color: var(--gold-accent, #c9a84c);
 }
 
 .card:hover {
@@ -260,13 +227,6 @@
 .detailsButton:hover {
   background: #b8931e;
   transform: translateY(-2px);
-}
-
-.cardFooter {
-  padding: 0.75rem 1.5rem 1.5rem;
-  border-top: 1px solid var(--border-color);
-  font-size: 0.8rem;
-  color: var(--text-light);
 }
 
 /* Type badge colors */

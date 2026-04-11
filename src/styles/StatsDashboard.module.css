@@ -1,0 +1,101 @@
+.dashboard {
+  padding: 20px;
+  background: var(--color-parchment, #f4f1de);
+  font-family: 'Libre Baskerville', serif;
+}
+
+.dashboard h2 {
+  font-family: 'Cinzel', serif;
+  font-size: 24px;
+  color: var(--primary-navy, #0f1623);
+  margin: 0 0 25px 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background: white;
+  border: 2px solid #8b7355;
+  border-radius: 0;
+  padding: 20px;
+  box-shadow: -4px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.card.wide {
+  grid-column: 1 / -1;
+}
+
+.card h3 {
+  font-family: 'Cinzel', serif;
+  font-size: 16px;
+  color: var(--primary-navy, #0f1623);
+  margin: 0 0 15px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.chart {
+  display: block;
+  margin: 15px 0;
+}
+
+.legend {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 12px;
+  font-size: 12px;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #0f1623;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+}
+
+.summaryStats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.stat {
+  padding: 12px;
+  background: #faf8f3;
+  border: 1px solid #e8e6e1;
+}
+
+.label {
+  font-size: 11px;
+  color: #8b7355;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+
+.value {
+  font-family: 'Cinzel', serif;
+  font-size: 20px;
+  color: var(--color-gold, #d4af37);
+  font-weight: bold;
+}
+
+.empty {
+  padding: 40px;
+  text-align: center;
+  color: #8b7355;
+  font-size: 14px;
+}

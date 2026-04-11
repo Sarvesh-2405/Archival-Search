@@ -1,6 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import documentsData from './data/documents.json';
 import { useSearch } from './hooks/useSearch';
+import { useVoiceSearch } from './hooks/useVoiceSearch';
+import { useSearchHistory } from './hooks/useSearchHistory';
+import { useCollections } from './hooks/useCollections';
+import { useViewMode } from './hooks/useViewMode';
+import { useInfiniteScroll } from './hooks/useInfiniteScroll';
+import { searchCache } from './utils/searchCache';
 import { Header } from './components/Header';
 import { SearchBar } from './components/SearchBar';
 import { FilterSidebar } from './components/FilterSidebar';
@@ -9,6 +15,13 @@ import { Pagination } from './components/Pagination';
 import { SortDropdown } from './components/SortDropdown';
 import { TimelineView } from './components/TimelineView';
 import { DetailModal } from './components/DetailModal';
+import { AdvancedSearch } from './components/AdvancedSearch';
+import { SearchHistory } from './components/SearchHistory';
+import { StatsDashboard } from './components/StatsDashboard';
+import { CollectionsPanel } from './components/CollectionsPanel';
+import { ExportPanel } from './components/ExportPanel';
+import { ViewModeToggle } from './components/ViewModeToggle';
+import { AccessibilityBar } from './components/AccessibilityBar';
 
 const appStyles = {
   app: {
@@ -74,7 +87,25 @@ const App = () => {
   });
   const resultsRef = useRef(null);
 
+  // New Feature State Management
+  const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
+  const [showStatsDashboard, setShowStatsDashboard] = useState(false);
+  const [showCollectionsPanel, setShowCollectionsPanel] = useState(false);
+  const [showExportPanel, setShowExportPanel] = useState(false);
+  const [advancedModes, setAdvancedModes] = useState({});
+  const [advancedFieldSearch, setAdvancedFieldSearch] = useState('any');
+
+  // Define documents first before any hooks that depend on it
   const documents = documentsData.documents;
+
+  const { history, addToHistory, clearHistory, savedSearches, saveSearch, removeSavedSearch } = useSearchHistory();
+  const { collections, createCollection, deleteCollection, addDocumentToCollection, removeDocumentFromCollection, notes, saveNote, deleteNote, getNote } = useCollections();
+  const { viewMode, switchMode } = useViewMode();
+  const { isListening, isSupported: voiceSupported, transcript, startListening, stopListening } = useVoiceSearch((text) => {
+    setSearchQuery(text);
+  });
+  const { displayedItems: infiniteResults, hasMore, observerTarget } = useInfiniteScroll(documents, 20);
+
   const {
     searchQuery,
     setSearchQuery,
@@ -95,6 +126,10 @@ const App = () => {
 
   // Handle search submission
   const handleSearch = () => {
+    // Add to search history
+    addToHistory(searchQuery);
+    // Clear search cache to get fresh results with new search
+    searchCache.clearQuery(searchQuery);
     setCurrentPage(1);
     if (resultsRef.current) {
       resultsRef.current.scrollIntoView({ behavior: 'smooth' });
@@ -105,6 +140,16 @@ const App = () => {
     setSearchQuery('');
     clearAllFilters();
     setSortBy('relevance');
+    setAdvancedModes({});
+  };
+
+  // Handle advanced search
+  const handleAdvancedSearch = (query, modes, fieldSearch) => {
+    setAdvancedModes(modes);
+    setAdvancedFieldSearch(fieldSearch);
+    setSearchQuery(query);
+    setShowAdvancedSearch(false);
+    handleSearch();
   };
 
   // Handle viewing document details
@@ -175,8 +220,9 @@ const App = () => {
   return (
     <div style={appStyles.app}>
       <Header />
+      <AccessibilityBar />
 
-      <main style={appStyles.mainContainer}>
+      <main style={appStyles.mainContainer} id="main">
         {/* Search Bar */}
         <SearchBar
           query={searchQuery}
@@ -185,6 +231,21 @@ const App = () => {
           onClear={handleClear}
           filters={filters}
           onRemoveFilter={handleRemoveFilter}
+          isListening={isListening}
+          isSupported={voiceSupported}
+          transcript={transcript}
+          startListening={startListening}
+          stopListening={stopListening}
+          onToggleAdvancedSearch={() => setShowAdvancedSearch(true)}
+          history={history}
+          savedSearches={savedSearches}
+          onSelectQuery={(query) => {
+            setSearchQuery(query);
+            handleSearch();
+          }}
+          onClearHistory={clearHistory}
+          onSaveSearch={saveSearch}
+          onRemoveSaved={removeSavedSearch}
         />
 
         {/* Main content area */}
@@ -215,6 +276,7 @@ const App = () => {
                   ☰ Filters
                 </button>
                 <SortDropdown currentSort={sortBy} onSortChange={setSortBy} />
+                <ViewModeToggle currentMode={viewMode} onModeChange={switchMode} />
                 <button
                   style={{
                     padding: '0.5rem 1rem',
@@ -231,8 +293,76 @@ const App = () => {
                 >
                   {showTimeline ? '📊 Timeline On' : '📊 Timeline Off'}
                 </button>
+                <button
+                  style={{
+                    padding: '0.5rem 1rem',
+                    backgroundColor: showStatsDashboard ? '#c9a84c' : '#ddd',
+                    color: showStatsDashboard ? 'white' : '#333',
+                    border: 'none',
+                    borderRadius: '6px',
+                    cursor: 'pointer',
+                    fontSize: '0.9rem',
+                    fontWeight: 500,
+                    transition: 'all 0.2s ease',
+                  }}
+                  onClick={() => setShowStatsDashboard(!showStatsDashboard)}
+                >
+                  {showStatsDashboard ? '📈 Stats On' : '📈 Stats Off'}
+                </button>
+                <button
+                  style={{
+                    padding: '0.5rem 1rem',
+                    backgroundColor: showCollectionsPanel ? '#c9a84c' : '#ddd',
+                    color: showCollectionsPanel ? 'white' : '#333',
+                    border: 'none',
+                    borderRadius: '6px',
+                    cursor: 'pointer',
+                    fontSize: '0.9rem',
+                    fontWeight: 500,
+                    transition: 'all 0.2s ease',
+                  }}
+                  onClick={() => setShowCollectionsPanel(!showCollectionsPanel)}
+                >
+                  {showCollectionsPanel ? '📚 Collections On' : '📚 Collections Off'}
+                </button>
+                <button
+                  style={{
+                    padding: '0.5rem 1rem',
+                    backgroundColor: '#8b7355',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '6px',
+                    cursor: 'pointer',
+                    fontSize: '0.9rem',
+                    fontWeight: 500,
+                    transition: 'all 0.2s ease',
+                  }}
+                  onClick={() => setShowExportPanel(true)}
+                >
+                  📤 Export
+                </button>
               </div>
             </div>
+
+            {/* Stats Dashboard */}
+            {showStatsDashboard && (
+              <StatsDashboard documents={allResults} />
+            )}
+
+            {/* Collections Panel */}
+            {showCollectionsPanel && (
+              <CollectionsPanel
+                collections={collections}
+                notes={notes}
+                onCreateCollection={createCollection}
+                onDeleteCollection={deleteCollection}
+                onAddDocument={addDocumentToCollection}
+                onRemoveDocument={removeDocumentFromCollection}
+                onSaveNote={saveNote}
+                onDeleteNote={deleteNote}
+                documents={documents}
+              />
+            )}
 
             {/* Timeline View */}
             {showTimeline && allResults.length > 0 && (
@@ -268,6 +398,7 @@ const App = () => {
                 onViewDetails={handleViewDetails}
                 isFavorite={isFavorite}
                 onToggleFavorite={handleToggleFavorite}
+                viewMode={viewMode}
               />
             </div>
 
@@ -306,6 +437,24 @@ const App = () => {
           onClose={handleCloseModal}
           isFavorite={isFavorite(selectedDocument.id)}
           onToggleFavorite={handleToggleFavorite}
+        />
+      )}
+
+      {/* Advanced Search Modal */}
+      {showAdvancedSearch && (
+        <AdvancedSearch
+          onSearch={handleAdvancedSearch}
+          onClose={() => setShowAdvancedSearch(false)}
+        />
+      )}
+
+      {/* Export Panel Modal */}
+      {showExportPanel && (
+        <ExportPanel
+          documents={allResults}
+          query={searchQuery}
+          filters={filters}
+          onClose={() => setShowExportPanel(false)}
         />
       )}
     </div>

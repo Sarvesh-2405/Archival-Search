@@ -207,21 +207,5 @@ export const ResultCard = ({ document, highlights, onViewDetails, isFavorite, on
 
 // Helper function to get type color
 function getTypeColor(type) {
-  const colors = {
-    painting: '#e8c547',
-    map: '#7b68ee',
-    letter: '#ff6b6b',
-    manuscript: '#4ecdc4',
-    drawing: '#f39c12',
-    photograph: '#3498db',
-    diagram: '#2ecc71',
-    journal: '#e74c3c',
-    illustration: '#9b59b6',
-    plan: '#1abc9c',
-    volume: '#34495e',
-    book: '#c0392b',
-    document: '#16a085',
-    artifact: '#d35400',
-  };
-  return colors[type] || '#c9a84c';
+  return '#e8c547';
 }

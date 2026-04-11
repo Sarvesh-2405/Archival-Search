@@ -1,48 +1,85 @@
 .header {
-  background: linear-gradient(135deg, var(--primary-navy) 0%, #0f1623 100%);
+  background-image: url('../Images/Bayeux-Tapisserie-de-Bayeux-4542-BayeuxMuseum.jpg');
+  background-size: 100% auto;
+  background-position: center center;
   color: white;
-  padding: 2rem 1rem;
+  padding: 3rem 1rem;
   text-align: center;
   box-shadow: var(--shadow-md);
+  position: relative;
+  min-height: 350px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header::before { 
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15, 22, 35, 0.65);
+  z-index: 0;
 }
 
 .headerContent {
   max-width: 1400px;
   margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
 
 .logo {
-  font-size: 1.2rem;
-  font-weight: 600;
+  font-size: 1.5rem;
+  font-weight: 700;
   margin-bottom: 0.5rem;
-  letter-spacing: 2px;
+  letter-spacing: 3px;
   text-transform: uppercase;
+  position: relative;
+  z-index: 1;
+  font-family: 'Cinzel', serif;
 }
 
 .title {
-  font-size: 2.5rem;
+  font-size: 4rem;
   margin-bottom: 0.5rem;
-  font-family: 'Playfair Display', serif;
+  font-family: 'Cinzel', serif;
   color: white !important;
+  position: relative;
+  z-index: 1;
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8);
+  font-weight: 700;
 }
 
 .subtitle {
-  font-size: 0.95rem;
-  opacity: 0.9;
+  font-size: 1.3rem;
+  opacity: 0.95;
   margin-top: 0.5rem;
+  position: relative;
+  z-index: 1;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+  font-family: 'Cinzel', serif;
+  font-weight: 500;
 }
 
 @media (max-width: 641px) {
   .header {
-    padding: 1.5rem 1rem;
+    padding: 2rem 1rem;
+    min-height: 280px;
   }
 
   .title {
-    font-size: 1.8rem;
+    font-size: 2.8rem;
     color: white !important;
   }
 
   .subtitle {
-    font-size: 0.85rem;
+    font-size: 1.1rem;
+  }
+
+  .logo {
+    font-size: 1.3rem;
   }
 }

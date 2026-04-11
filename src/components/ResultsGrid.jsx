@@ -55,7 +55,7 @@ const styles = {
   },
 };
 
-export const ResultsGrid = ({ results, isLoading, totalResults, paginationInfo }) => {
+export const ResultsGrid = ({ results, isLoading, totalResults, paginationInfo, onViewDetails, isFavorite, onToggleFavorite }) => {
   if (isLoading) {
     return (
       <div style={styles.resultsContainer}>
@@ -105,6 +105,9 @@ export const ResultsGrid = ({ results, isLoading, totalResults, paginationInfo }
             key={doc.id}
             document={doc}
             highlights={doc.highlightPositions}
+            onViewDetails={onViewDetails}
+            isFavorite={isFavorite && isFavorite(doc.id)}
+            onToggleFavorite={onToggleFavorite}
           />
         ))}
       </div>

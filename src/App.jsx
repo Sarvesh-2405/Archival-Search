@@ -8,6 +8,7 @@ import { ResultsGrid } from './components/ResultsGrid';
 import { Pagination } from './components/Pagination';
 import { SortDropdown } from './components/SortDropdown';
 import { TimelineView } from './components/TimelineView';
+import { DetailModal } from './components/DetailModal';
 
 const appStyles = {
   app: {
@@ -65,6 +66,12 @@ const appStyles = {
 const App = () => {
   const [showTimeline, setShowTimeline] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [selectedDocument, setSelectedDocument] = useState(null);
+  const [favorites, setFavorites] = useState(() => {
+    // Load favorites from localStorage
+    const saved = localStorage.getItem('archival-favorites');
+    return saved ? JSON.parse(saved) : [];
+  });
   const resultsRef = useRef(null);
 
   const documents = documentsData.documents;
@@ -99,6 +106,31 @@ const App = () => {
     clearAllFilters();
     setSortBy('relevance');
   };
+
+  // Handle viewing document details
+  const handleViewDetails = (document) => {
+    setSelectedDocument(document);
+  };
+
+  // Handle closing detail modal
+  const handleCloseModal = () => {
+    setSelectedDocument(null);
+  };
+
+  // Handle toggling favorite
+  const handleToggleFavorite = (docId) => {
+    setFavorites((prevFavorites) => {
+      const newFavorites = prevFavorites.includes(docId)
+        ? prevFavorites.filter((id) => id !== docId)
+        : [...prevFavorites, docId];
+      // Save to localStorage
+      localStorage.setItem('archival-favorites', JSON.stringify(newFavorites));
+      return newFavorites;
+    });
+  };
+
+  // Check if document is favorite
+  const isFavorite = (docId) => favorites.includes(docId);
 
   // Remove filter chip
   const handleRemoveFilter = (filterObj) => {
@@ -233,6 +265,9 @@ const App = () => {
                 isLoading={isLoading}
                 totalResults={totalResults}
                 paginationInfo={paginationInfo}
+                onViewDetails={handleViewDetails}
+                isFavorite={isFavorite}
+                onToggleFavorite={handleToggleFavorite}
               />
             </div>
 
@@ -261,6 +296,16 @@ const App = () => {
             display: 'block',
           }}
           onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
+      {/* Detail Modal */}
+      {selectedDocument && (
+        <DetailModal
+          document={selectedDocument}
+          onClose={handleCloseModal}
+          isFavorite={isFavorite(selectedDocument.id)}
+          onToggleFavorite={handleToggleFavorite}
         />
       )}
     </div>

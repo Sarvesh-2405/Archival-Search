@@ -105,14 +105,14 @@ export function CollectionsPanel({ collections = [], notes = {}, onCreateCollect
                       <div className={styles.docInfo}>
                         <div className={styles.docTitle}>{doc.title}</div>
                         <div className={styles.docMeta}>{doc.type} • {doc.date}</div>
-                        {notes[docId] && <div className={styles.hasNote}>📝 Has note</div>}
+                        {notes[docId] && <div className={styles.hasNote}>Has note</div>}
                       </div>
                       <button
                         onClick={() => handleSelectDocument(doc)}
                         className={styles.notesBtn}
                         title="Edit note"
                       >
-                        💬
+                        Edit Note
                       </button>
                       <button
                         onClick={() => onRemoveDocument(selectedCollection.id, docId)}

@@ -3,6 +3,23 @@ import styles from '../styles/Accessibility.module.css';
 
 const ACCESSIBILITY_KEY = 'archval_accessibility';
 
+// Professional SVG Accessibility Icon (Universal human figure)
+const AccessibilityIcon = () => (
+  <svg 
+    width="24" 
+    height="24" 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    stroke="currentColor" 
+    strokeWidth="2.2" 
+    strokeLinecap="round" 
+    strokeLinejoin="round"
+  >
+    <circle cx="12" cy="5" r="1.5" fill="currentColor" />
+    <path d="M9 22v-6H5v-2a3 3 0 0 1 6-3h2a3 3 0 0 1 6 3v2h-4v6" />
+  </svg>
+);
+
 /**
  * AccessibilityBar - Accessibility controls (contrast, text size, keyboard nav)
  */
@@ -69,7 +86,7 @@ export function AccessibilityBar() {
           aria-label="Accessibility options"
           title="Accessibility Options"
         >
-          ♿
+          <AccessibilityIcon />
         </button>
 
         {isOpen && (

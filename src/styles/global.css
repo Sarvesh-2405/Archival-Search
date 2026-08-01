@@ -220,3 +220,31 @@ input:focus, textarea:focus, select:focus {
   h3 { font-size: 1.5rem; }
 }
 
+/* Leaflet Popup Premium Custom Styling */
+.custom-leaflet-popup .leaflet-popup-content-wrapper {
+  background: rgba(30, 41, 59, 0.95) !important;
+  border: 1px solid var(--gold-accent) !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: var(--shadow-xl) !important;
+  backdrop-filter: blur(4px) !important;
+  color: white !important;
+  padding: 0.5rem !important;
+}
+
+.custom-leaflet-popup .leaflet-popup-tip {
+  background: rgba(30, 41, 59, 0.95) !important;
+  border-left: 1px solid var(--gold-accent) !important;
+  border-bottom: 1px solid var(--gold-accent) !important;
+}
+
+.custom-leaflet-popup .leaflet-popup-close-button {
+  color: #94a3b8 !important;
+  font-size: 14px !important;
+  padding: 8px !important;
+}
+
+.custom-leaflet-popup .leaflet-popup-close-button:hover {
+  color: white !important;
+  background: none !important;
+}
+

@@ -1,20 +1,19 @@
 import React, { useState } from 'react';
 import { analyzeDocumentWithGemini } from '../utils/geminiService';
 
-// Professional SVG Heart Icon
-const HeartIcon = ({ filled = false, className = "" }) => (
-  <svg 
-    width="20" 
-    height="20" 
-    viewBox="0 0 24 24" 
-    fill={filled ? "currentColor" : "none"}
-    stroke="currentColor" 
-    strokeWidth="2" 
-    strokeLinecap="round" 
+// Professional SVG Bookmark Icon — suits archival research context
+const BookmarkIcon = ({ filled = false }) => (
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill={filled ? 'currentColor' : 'none'}
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
     strokeLinejoin="round"
-    className={className}
   >
-    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+    <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
   </svg>
 );
 
@@ -108,8 +107,8 @@ export const DetailModal = ({ document, onClose, onPrint, isFavorite, onToggleFa
       alignItems: 'center',
       justifyContent: 'center',
       transition: 'var(--transition-fast)',
-      background: isActive ? '#fee2e2' : 'var(--border-light)',
-      color: isActive ? '#ef4444' : 'var(--text-light)',
+      background: isActive ? 'var(--gold-lighter)' : 'var(--border-light)',
+      color: isActive ? 'var(--gold-accent)' : 'var(--text-light)',
     }),
     closeButton: {
       width: '44px',
@@ -235,9 +234,9 @@ export const DetailModal = ({ document, onClose, onPrint, isFavorite, onToggleFa
             <button
               style={modalStyles.actionBtn(isFavorite)}
               onClick={() => onToggleFavorite && onToggleFavorite(document.id)}
-              title={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+              title={isFavorite ? 'Remove bookmark' : 'Bookmark this document'}
             >
-              <HeartIcon filled={isFavorite} />
+              <BookmarkIcon filled={isFavorite} />
             </button>
             <button
               style={modalStyles.closeButton}
@@ -255,7 +254,7 @@ export const DetailModal = ({ document, onClose, onPrint, isFavorite, onToggleFa
           {document.description && (
             <div style={modalStyles.section}>
               <div style={modalStyles.sectionTitle}>
-                <span style={{ fontSize: '1.2rem' }}>📖</span> Description
+                Description
                 <div style={modalStyles.sectionTitleLine}></div>
               </div>
               <p style={modalStyles.description}>{document.description}</p>
@@ -265,55 +264,55 @@ export const DetailModal = ({ document, onClose, onPrint, isFavorite, onToggleFa
           {/* Metadata Grid */}
           <div style={modalStyles.section}>
             <div style={modalStyles.sectionTitle}>
-              <span style={{ fontSize: '1.2rem' }}>🧾</span> Archival Details
+              Archival Details
               <div style={modalStyles.sectionTitleLine}></div>
             </div>
             <div style={modalStyles.metadataGrid}>
               {document.date && (
                 <div style={modalStyles.metaItem}>
-                  <div style={modalStyles.metaLabel}>📅 Date Created</div>
+                  <div style={modalStyles.metaLabel}>Date Created</div>
                   <div style={modalStyles.metaValue}>{document.date}</div>
                 </div>
               )}
               {document.place && (
                 <div style={modalStyles.metaItem}>
-                  <div style={modalStyles.metaLabel}>📍 Geographic Place</div>
+                  <div style={modalStyles.metaLabel}>Geographic Place</div>
                   <div style={modalStyles.metaValue}>{document.place}</div>
                 </div>
               )}
               {document.region && (
                 <div style={modalStyles.metaItem}>
-                  <div style={modalStyles.metaLabel}>🌍 Regional Origin</div>
+                  <div style={modalStyles.metaLabel}>Regional Origin</div>
                   <div style={modalStyles.metaValue}>{document.region}</div>
                 </div>
               )}
               {document.language && (
                 <div style={modalStyles.metaItem}>
-                  <div style={modalStyles.metaLabel}>🗣️ Document Language</div>
+                  <div style={modalStyles.metaLabel}>Document Language</div>
                   <div style={modalStyles.metaValue}>{document.language}</div>
                 </div>
               )}
               {document.author && document.author !== 'Unknown' && (
                 <div style={modalStyles.metaItem}>
-                  <div style={modalStyles.metaLabel}>✍️ Recorded Author</div>
+                  <div style={modalStyles.metaLabel}>Recorded Author</div>
                   <div style={modalStyles.metaValue}>{document.author}</div>
                 </div>
               )}
               {document.holdingInstitution && (
                 <div style={modalStyles.metaItem}>
-                  <div style={modalStyles.metaLabel}>🏛️ Holding Institution</div>
+                  <div style={modalStyles.metaLabel}>Holding Institution</div>
                   <div style={modalStyles.metaValue}>{document.holdingInstitution}</div>
                 </div>
               )}
               {document.collection && (
                 <div style={modalStyles.metaItem}>
-                  <div style={modalStyles.metaLabel}>📚 Archival Collection</div>
+                  <div style={modalStyles.metaLabel}>Archival Collection</div>
                   <div style={modalStyles.metaValue}>{document.collection}</div>
                 </div>
               )}
               {document.format && (
                 <div style={modalStyles.metaItem}>
-                  <div style={modalStyles.metaLabel}>📄 Physical Format</div>
+                  <div style={modalStyles.metaLabel}>Physical Format</div>
                   <div style={modalStyles.metaValue}>{document.format}</div>
                 </div>
               )}
@@ -324,7 +323,7 @@ export const DetailModal = ({ document, onClose, onPrint, isFavorite, onToggleFa
           {document.subjects && document.subjects.length > 0 && (
             <div style={modalStyles.section}>
               <div style={modalStyles.sectionTitle}>
-                <span style={{ fontSize: '1.2rem' }}>🏷️</span> Subjects & Classifications
+                Subjects & Classifications
                 <div style={modalStyles.sectionTitleLine}></div>
               </div>
               <div style={modalStyles.tagContainer}>
@@ -341,7 +340,7 @@ export const DetailModal = ({ document, onClose, onPrint, isFavorite, onToggleFa
           {document.keywords && document.keywords.length > 0 && (
             <div style={modalStyles.section}>
               <div style={modalStyles.sectionTitle}>
-                <span style={{ fontSize: '1.2rem' }}>🔑</span> Metadata Keywords
+                Metadata Keywords
                 <div style={modalStyles.sectionTitleLine}></div>
               </div>
               <div style={modalStyles.tagContainer}>
@@ -357,7 +356,7 @@ export const DetailModal = ({ document, onClose, onPrint, isFavorite, onToggleFa
           {/* AI Insights Section */}
           <div style={modalStyles.section}>
             <div style={modalStyles.sectionTitle}>
-              <span style={{ fontSize: '1.2rem' }}>🤖</span> AI-Powered Insights
+              AI-Powered Insights
               <div style={modalStyles.sectionTitleLine}></div>
             </div>
 
@@ -382,7 +381,7 @@ export const DetailModal = ({ document, onClose, onPrint, isFavorite, onToggleFa
                   e.target.style.backgroundColor = 'var(--gold-accent)';
                 }}
               >
-                ✨ Generate AI Insights
+                Generate AI Insights
               </button>
             )}
 
@@ -393,7 +392,6 @@ export const DetailModal = ({ document, onClose, onPrint, isFavorite, onToggleFa
                 backgroundColor: 'var(--cream-bg)',
                 borderRadius: 'var(--radius-md)',
               }}>
-                <div style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>⏳</div>
                 <p style={{ color: 'var(--text-light)', marginBottom: '1rem' }}>Analyzing document with AI...</p>
                 <div style={{
                   display: 'inline-block',
@@ -456,7 +454,7 @@ export const DetailModal = ({ document, onClose, onPrint, isFavorite, onToggleFa
                     textTransform: 'uppercase',
                     marginBottom: '0.75rem',
                     letterSpacing: '0.05em',
-                  }}>📋 Summary</h4>
+                  }}>Summary</h4>
                   <p style={{ color: 'var(--text-main)', lineHeight: 1.6 }}>
                     {aiAnalysis.summary}
                   </p>
@@ -477,7 +475,7 @@ export const DetailModal = ({ document, onClose, onPrint, isFavorite, onToggleFa
                       textTransform: 'uppercase',
                       marginBottom: '0.75rem',
                       letterSpacing: '0.05em',
-                    }}>📚 Historical Context</h4>
+                    }}>Historical Context</h4>
                     <p style={{ color: 'var(--text-main)', lineHeight: 1.6 }}>
                       {aiAnalysis.historicalContext}
                     </p>
@@ -499,7 +497,7 @@ export const DetailModal = ({ document, onClose, onPrint, isFavorite, onToggleFa
                       textTransform: 'uppercase',
                       marginBottom: '0.75rem',
                       letterSpacing: '0.05em',
-                    }}>💡 Key Insights</h4>
+                    }}>Key Insights</h4>
                     <ul style={{
                       listStyle: 'none',
                       padding: 0,
@@ -538,7 +536,7 @@ export const DetailModal = ({ document, onClose, onPrint, isFavorite, onToggleFa
                       textTransform: 'uppercase',
                       marginBottom: '0.75rem',
                       letterSpacing: '0.05em',
-                    }}>🔗 Related Topics</h4>
+                    }}>Related Topics</h4>
                     <div style={{
                       display: 'flex',
                       flexWrap: 'wrap',
@@ -576,7 +574,7 @@ export const DetailModal = ({ document, onClose, onPrint, isFavorite, onToggleFa
                       textTransform: 'uppercase',
                       marginBottom: '0.75rem',
                       letterSpacing: '0.05em',
-                    }}>🎓 Research Value</h4>
+                    }}>Research Value</h4>
                     <p style={{ color: 'var(--text-main)', lineHeight: 1.6 }}>
                       {aiAnalysis.researchValue}
                     </p>
@@ -620,7 +618,7 @@ export const DetailModal = ({ document, onClose, onPrint, isFavorite, onToggleFa
             onMouseEnter={(e) => (e.target.style.background = 'var(--border-light)')}
             onMouseLeave={(e) => (e.target.style.background = 'white')}
           >
-            🖨️ Print Document
+            Print Document
           </button>
           <button
             style={modalStyles.primaryBtn}

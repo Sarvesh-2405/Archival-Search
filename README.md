@@ -121,7 +121,7 @@ src/
 
 ## 🛠 Tech Stack
 
-- **React 18** with functional components & hooks
+- **React 19** with functional components & hooks
 - **CSS Modules** (no Tailwind, no UI libraries)
 - **Client-side only** — 100% browser-based
 - **JSON dataset** — 100 archival records

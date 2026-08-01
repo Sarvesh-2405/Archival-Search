@@ -31,6 +31,9 @@ const styles = {
     display: isOpen ? 'flex' : 'none',
     flexDirection: 'column',
     gap: '0.5rem',
+    maxHeight: '240px',
+    overflowY: 'auto',
+    paddingRight: '6px',
   }),
   option: (isActive) => ({
     display: 'flex',

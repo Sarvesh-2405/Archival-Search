@@ -5,7 +5,7 @@ import { useVoiceSearch } from './hooks/useVoiceSearch';
 import { useSearchHistory } from './hooks/useSearchHistory';
 import { useCollections } from './hooks/useCollections';
 import { useViewMode } from './hooks/useViewMode';
-import { useInfiniteScroll } from './hooks/useInfiniteScroll';
+import { useMediaQuery } from './hooks/useMediaQuery';
 import { searchCache } from './utils/searchCache';
 import { Header } from './components/Header';
 import { SearchBar } from './components/SearchBar';
@@ -16,92 +16,12 @@ import { SortDropdown } from './components/SortDropdown';
 import { TimelineView } from './components/TimelineView';
 import { DetailModal } from './components/DetailModal';
 import { AdvancedSearch } from './components/AdvancedSearch';
-import { SearchHistory } from './components/SearchHistory';
 import { CollectionsPanel } from './components/CollectionsPanel';
 import { ExportPanel } from './components/ExportPanel';
 import { ViewModeToggle } from './components/ViewModeToggle';
 import { AccessibilityBar } from './components/AccessibilityBar';
-
-const appStyles = {
-  app: {
-    minHeight: '100vh',
-    display: 'flex',
-    flexDirection: 'column',
-    backgroundColor: 'var(--cream-bg)',
-    color: 'var(--text-main)',
-  },
-  mainContainer: {
-    flex: 1,
-    maxWidth: '1440px',
-    margin: '0 auto',
-    width: '100%',
-    padding: '2rem 1.5rem',
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '2rem',
-  },
-  contentWrapper: {
-    display: 'flex',
-    gap: '2rem',
-    position: 'relative',
-    alignItems: 'flex-start',
-  },
-  resultsSection: {
-    flex: 1,
-    minWidth: 0,
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '1.5rem',
-  },
-  topControls: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    gap: '1rem',
-    padding: '1rem 1.5rem',
-    backgroundColor: 'white',
-    borderRadius: 'var(--radius-lg)',
-    boxShadow: 'var(--shadow-sm)',
-    border: '1px solid var(--border-light)',
-    flexWrap: 'wrap',
-  },
-  filterButton: {
-    padding: '0.625rem 1.25rem',
-    backgroundColor: 'var(--primary-navy)',
-    color: 'white',
-    borderRadius: 'var(--radius-md)',
-    fontSize: '0.875rem',
-    fontWeight: 600,
-    boxShadow: 'var(--shadow-md)',
-  },
-  actionButton: (active) => ({
-    padding: '0.5rem 1rem',
-    backgroundColor: active ? 'var(--gold-accent)' : 'var(--gold-lighter)',
-    color: active ? 'white' : 'var(--gold-accent)',
-    borderRadius: 'var(--radius-md)',
-    fontSize: '0.875rem',
-    fontWeight: 600,
-    border: `1px solid ${active ? 'var(--gold-accent)' : 'var(--gold-light)'}`,
-  }),
-  exportButton: {
-    padding: '0.5rem 1rem',
-    backgroundColor: 'var(--primary-navy)',
-    color: 'white',
-    borderRadius: 'var(--radius-md)',
-    fontSize: '0.875rem',
-    fontWeight: 600,
-  },
-  overlay: {
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: 'rgba(15, 22, 35, 0.4)',
-    backdropFilter: 'blur(4px)',
-    zIndex: 99,
-  },
-};
+import { MapView } from './components/MapView';
+import styles from './styles/App.module.css';
 
 const App = () => {
   const [showTimeline, setShowTimeline] = useState(false);
@@ -118,19 +38,20 @@ const App = () => {
   const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
   const [showCollectionsPanel, setShowCollectionsPanel] = useState(false);
   const [showExportPanel, setShowExportPanel] = useState(false);
-  const [advancedModes, setAdvancedModes] = useState({});
-  const [advancedFieldSearch, setAdvancedFieldSearch] = useState('any');
+  const [showMap, setShowMap] = useState(false);
+
+  // Reactive breakpoint — replaces the broken window.innerWidth snapshot
+  const isTabletOrSmaller = useMediaQuery('(max-width: 1024px)');
 
   // Define documents first before any hooks that depend on it
   const documents = documentsData.documents;
 
   const { history, addToHistory, clearHistory, savedSearches, saveSearch, removeSavedSearch } = useSearchHistory();
-  const { collections, createCollection, deleteCollection, addDocumentToCollection, removeDocumentFromCollection, notes, saveNote, deleteNote, getNote } = useCollections();
+  const { collections, createCollection, deleteCollection, addDocumentToCollection, removeDocumentFromCollection, notes, saveNote, deleteNote } = useCollections();
   const { viewMode, switchMode } = useViewMode();
   const { isListening, isSupported: voiceSupported, transcript, startListening, stopListening } = useVoiceSearch((text) => {
     setSearchQuery(text);
   });
-  const { displayedItems: infiniteResults, hasMore, observerTarget } = useInfiniteScroll(documents, 20);
 
   const {
     searchQuery,
@@ -139,7 +60,6 @@ const App = () => {
     toggleFilter,
     clearAllFilters,
     setDateRange,
-    currentPage,
     setCurrentPage,
     sortBy,
     setSortBy,
@@ -166,13 +86,10 @@ const App = () => {
     setSearchQuery('');
     clearAllFilters();
     setSortBy('relevance');
-    setAdvancedModes({});
   };
 
   // Handle advanced search
-  const handleAdvancedSearch = (query, modes, fieldSearch) => {
-    setAdvancedModes(modes);
-    setAdvancedFieldSearch(fieldSearch);
+  const handleAdvancedSearch = (query) => {
     setSearchQuery(query);
     setShowAdvancedSearch(false);
     handleSearch();
@@ -230,25 +147,19 @@ const App = () => {
     setSidebarOpen(false);
   }, [filters]);
 
-  // Add media query listener for responsive behavior
+  // Close sidebar when switching to desktop layout
   useEffect(() => {
-    const mediaQuery = window.matchMedia('(max-width: 1024px)');
-    const handleMediaChange = (e) => {
-      if (!e.matches) {
-        setSidebarOpen(false);
-      }
-    };
-
-    mediaQuery.addEventListener('change', handleMediaChange);
-    return () => mediaQuery.removeEventListener('change', handleMediaChange);
-  }, []);
+    if (!isTabletOrSmaller) {
+      setSidebarOpen(false);
+    }
+  }, [isTabletOrSmaller]);
 
   return (
-    <div style={appStyles.app}>
+    <div className={styles.app}>
       <Header />
       <AccessibilityBar />
 
-      <main style={appStyles.mainContainer} id="main">
+      <main className={styles.mainContainer} id="main">
         {/* Search Bar */}
         <SearchBar
           query={searchQuery}
@@ -275,7 +186,7 @@ const App = () => {
         />
 
         {/* Main content area */}
-        <div style={appStyles.contentWrapper}>
+        <div className={styles.contentWrapper}>
           {/* Filter Sidebar */}
           <FilterSidebar
             documents={documents}
@@ -288,61 +199,50 @@ const App = () => {
           />
 
           {/* Results Section */}
-          <div style={appStyles.resultsSection} ref={resultsRef}>
+          <div className={styles.resultsSection} ref={resultsRef}>
             {/* Top Controls */}
-            <div style={appStyles.topControls}>
-              <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', alignItems: 'center' }}>
-                <button
-                  style={{
-                    ...appStyles.filterButton,
-                    display: window.innerWidth <= 1024 ? 'inline-flex' : 'none',
-                  }}
-                  onClick={toggleSidebar}
-                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'var(--gold-lighter)')}
-                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'var(--cream-bg)')}
-                >
-                  Filters
-                </button>
+            <div className={styles.topControls}>
+              <div className={styles.topControlsLeft}>
+                {/* Filters button: shown only on tablet/mobile via CSS module media query */}
+                {isTabletOrSmaller && (
+                  <button
+                    className={styles.filterButton}
+                    onClick={toggleSidebar}
+                  >
+                    Filters
+                  </button>
+                )}
                 <SortDropdown currentSort={sortBy} onSortChange={setSortBy} />
                 <ViewModeToggle currentMode={viewMode} onModeChange={switchMode} />
-                
-                <div style={{ height: '24px', width: '1px', backgroundColor: 'var(--border-color)', margin: '0 0.5rem' }}></div>
-                
+
+                <div className={styles.divider} />
+
                 <button
-                  style={appStyles.actionButton(showTimeline)}
+                  className={showTimeline ? styles.actionBtnActive : styles.actionBtn}
                   onClick={() => setShowTimeline(!showTimeline)}
-                  onMouseEnter={(e) => {
-                    if (!showTimeline) e.currentTarget.style.backgroundColor = 'var(--gold-lighter)';
-                  }}
-                  onMouseLeave={(e) => {
-                    if (!showTimeline) e.currentTarget.style.backgroundColor = 'var(--cream-bg)';
-                  }}
                 >
                   Timeline
                 </button>
                 <button
-                  style={appStyles.actionButton(showCollectionsPanel)}
+                  className={showMap ? styles.actionBtnActive : styles.actionBtn}
+                  onClick={() => setShowMap(!showMap)}
+                >
+                  Map
+                </button>
+                <button
+                  className={showCollectionsPanel ? styles.actionBtnActive : styles.actionBtn}
                   onClick={() => setShowCollectionsPanel(!showCollectionsPanel)}
-                  onMouseEnter={(e) => {
-                    if (!showCollectionsPanel) e.currentTarget.style.backgroundColor = 'var(--gold-lighter)';
-                  }}
-                  onMouseLeave={(e) => {
-                    if (!showCollectionsPanel) e.currentTarget.style.backgroundColor = 'var(--cream-bg)';
-                  }}
                 >
                   Collections
                 </button>
                 <button
-                  style={appStyles.exportButton}
+                  className={styles.exportButton}
                   onClick={() => setShowExportPanel(true)}
-                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'var(--primary-navy-dark)')}
-                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'var(--primary-navy)')}
                 >
                   Export
                 </button>
               </div>
             </div>
-
 
             {/* Collections Panel */}
             {showCollectionsPanel && (
@@ -356,6 +256,14 @@ const App = () => {
                 onSaveNote={saveNote}
                 onDeleteNote={deleteNote}
                 documents={documents}
+              />
+            )}
+
+            {/* Map View */}
+            {showMap && (
+              <MapView
+                results={allResults}
+                onMarkerClick={handleViewDetails}
               />
             )}
 
@@ -417,10 +325,7 @@ const App = () => {
       {/* Sidebar overlay for mobile */}
       {sidebarOpen && (
         <div
-          style={{
-            ...appStyles.overlay,
-            display: 'block',
-          }}
+          className={styles.overlay}
           onClick={() => setSidebarOpen(false)}
         />
       )}

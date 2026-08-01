@@ -1,0 +1,144 @@
+/* App.module.css — Main application layout styles */
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--cream-bg);
+  color: var(--text-main);
+}
+
+.mainContainer {
+  flex: 1;
+  max-width: 1440px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.contentWrapper {
+  display: flex;
+  gap: 2rem;
+  position: relative;
+  align-items: flex-start;
+}
+
+.resultsSection {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.topControls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  background-color: white;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-light);
+  flex-wrap: wrap;
+}
+
+.topControlsLeft {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.divider {
+  height: 24px;
+  width: 1px;
+  background-color: var(--border-color);
+  margin: 0 0.5rem;
+}
+
+/* Mobile-only filters toggle button — hidden on desktop */
+.filterButton {
+  display: none;
+  padding: 0.625rem 1.25rem;
+  background-color: var(--primary-navy);
+  color: white;
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-weight: 600;
+  box-shadow: var(--shadow-md);
+  transition: var(--transition-fast);
+}
+
+.filterButton:hover {
+  background-color: var(--primary-navy-dark);
+}
+
+@media (max-width: 1024px) {
+  .filterButton {
+    display: inline-flex;
+  }
+}
+
+/* Action buttons (Timeline / Collections toggle) */
+.actionBtn {
+  padding: 0.5rem 1rem;
+  background-color: var(--gold-lighter);
+  color: var(--gold-accent);
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-weight: 600;
+  border: 1px solid var(--gold-light);
+  transition: var(--transition-fast);
+}
+
+.actionBtn:hover {
+  background-color: var(--gold-light);
+}
+
+.actionBtnActive {
+  padding: 0.5rem 1rem;
+  background-color: var(--gold-accent);
+  color: white;
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-weight: 600;
+  border: 1px solid var(--gold-accent);
+  transition: var(--transition-fast);
+}
+
+.actionBtnActive:hover {
+  background-color: var(--gold-hover);
+}
+
+/* Export button */
+.exportButton {
+  padding: 0.5rem 1rem;
+  background-color: var(--primary-navy);
+  color: white;
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: var(--transition-fast);
+}
+
+.exportButton:hover {
+  background-color: var(--primary-navy-dark);
+}
+
+/* Sidebar backdrop overlay on mobile */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(15, 22, 35, 0.4);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 99;
+}

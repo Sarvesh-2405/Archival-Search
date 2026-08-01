@@ -3,8 +3,8 @@ import { formatDate } from '../utils/dateUtils';
 import { highlightText as highlightSnippet } from '../utils/searchEngine';
 import styles from '../styles/ResultCard.module.css';
 
-// Professional SVG Icons
-const HeartIcon = ({ filled = false, className = "" }) => (
+// Professional SVG Bookmark Icon
+const BookmarkIcon = ({ filled = false, className = "" }) => (
   <svg 
     width="16" 
     height="16" 
@@ -16,48 +16,31 @@ const HeartIcon = ({ filled = false, className = "" }) => (
     strokeLinejoin="round"
     className={className}
   >
-    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+    <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
   </svg>
 );
 
-const EyeIcon = ({ className = "" }) => (
+// Professional SVG Document Icon
+const DocumentIcon = ({ className = "" }) => (
   <svg 
-    width="16" 
-    height="16" 
+    width="18" 
+    height="18" 
     viewBox="0 0 24 24" 
-    fill="none"
+    fill="none" 
     stroke="currentColor" 
     strokeWidth="2" 
     strokeLinecap="round" 
     strokeLinejoin="round"
     className={className}
   >
-    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-    <circle cx="12" cy="12" r="3"></circle>
+    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+    <polyline points="14 2 14 8 20 8"></polyline>
+    <line x1="16" y1="13" x2="8" y2="13"></line>
+    <line x1="16" y1="17" x2="8" y2="17"></line>
   </svg>
 );
 
-// Type-specific emoji icons
-const typeIcons = {
-  painting: '🖼️',
-  map: '🗺️',
-  letter: '✉️',
-  manuscript: '📜',
-  drawing: '✏️',
-  photograph: '📷',
-  diagram: '📊',
-  journal: '📓',
-  illustration: '🎨',
-  plan: '📐',
-  volume: '📕',
-  book: '📖',
-  document: '📄',
-  artifact: '🏺',
-};
-
 export const ResultCard = ({ document, highlights, onViewDetails, isFavorite, onToggleFavorite, viewMode = 'grid' }) => {
-  const icon = typeIcons[document.type] || '📑';
-
   // Truncate and highlight description
   const truncatedDesc = document.description
     ? document.description.substring(0, 150) +
@@ -86,21 +69,16 @@ export const ResultCard = ({ document, highlights, onViewDetails, isFavorite, on
     <div className={styles.card} data-type={document.type}>
       <div className={styles.cardHeader}>
         <div className={styles.topBar}>
-          <div className={styles.thumbnail}>{icon}</div>
+          <div className={styles.thumbnail}>
+            <DocumentIcon />
+          </div>
           <div className={styles.actions}>
             <button
               className={`${styles.actionButton} ${isFavorite ? styles.favorite : ''}`}
               onClick={() => onToggleFavorite && onToggleFavorite(document.id)}
-              title={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+              title={isFavorite ? 'Remove bookmark' : 'Bookmark this document'}
             >
-              <HeartIcon filled={isFavorite} />
-            </button>
-            <button
-              className={styles.actionButton}
-              onClick={() => onViewDetails && onViewDetails(document)}
-              title="View full details"
-            >
-              <EyeIcon />
+              <BookmarkIcon filled={isFavorite} />
             </button>
           </div>
         </div>

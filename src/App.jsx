@@ -17,7 +17,6 @@ import { TimelineView } from './components/TimelineView';
 import { DetailModal } from './components/DetailModal';
 import { AdvancedSearch } from './components/AdvancedSearch';
 import { SearchHistory } from './components/SearchHistory';
-import { StatsDashboard } from './components/StatsDashboard';
 import { CollectionsPanel } from './components/CollectionsPanel';
 import { ExportPanel } from './components/ExportPanel';
 import { ViewModeToggle } from './components/ViewModeToggle';
@@ -28,50 +27,78 @@ const appStyles = {
     minHeight: '100vh',
     display: 'flex',
     flexDirection: 'column',
-    backgroundColor: '#f5f0e8',
+    backgroundColor: 'var(--cream-bg)',
+    color: 'var(--text-main)',
   },
   mainContainer: {
     flex: 1,
-    maxWidth: '1400px',
+    maxWidth: '1440px',
     margin: '0 auto',
     width: '100%',
-    padding: '1.5rem',
+    padding: '2rem 1.5rem',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '2rem',
   },
   contentWrapper: {
     display: 'flex',
-    gap: '1.5rem',
-    marginBottom: '2rem',
+    gap: '2rem',
+    position: 'relative',
+    alignItems: 'flex-start',
   },
   resultsSection: {
     flex: 1,
     minWidth: 0,
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '1.5rem',
   },
   topControls: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
     gap: '1rem',
-    marginBottom: '1.5rem',
+    padding: '1rem 1.5rem',
+    backgroundColor: 'white',
+    borderRadius: 'var(--radius-lg)',
+    boxShadow: 'var(--shadow-sm)',
+    border: '1px solid var(--border-light)',
     flexWrap: 'wrap',
   },
   filterButton: {
-    display: 'none',
-    padding: '0.75rem 1.5rem',
-    backgroundColor: '#c9a84c',
+    padding: '0.625rem 1.25rem',
+    backgroundColor: 'var(--primary-navy)',
     color: 'white',
-    border: 'none',
-    borderRadius: '6px',
-    cursor: 'pointer',
+    borderRadius: 'var(--radius-md)',
+    fontSize: '0.875rem',
+    fontWeight: 600,
+    boxShadow: 'var(--shadow-md)',
+  },
+  actionButton: (active) => ({
+    padding: '0.5rem 1rem',
+    backgroundColor: active ? 'var(--gold-accent)' : 'var(--gold-lighter)',
+    color: active ? 'white' : 'var(--gold-accent)',
+    borderRadius: 'var(--radius-md)',
+    fontSize: '0.875rem',
+    fontWeight: 600,
+    border: `1px solid ${active ? 'var(--gold-accent)' : 'var(--gold-light)'}`,
+  }),
+  exportButton: {
+    padding: '0.5rem 1rem',
+    backgroundColor: 'var(--primary-navy)',
+    color: 'white',
+    borderRadius: 'var(--radius-md)',
+    fontSize: '0.875rem',
     fontWeight: 600,
   },
   overlay: {
-    display: 'none',
     position: 'fixed',
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgba(15, 22, 35, 0.4)',
+    backdropFilter: 'blur(4px)',
     zIndex: 99,
   },
 };
@@ -89,7 +116,6 @@ const App = () => {
 
   // New Feature State Management
   const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
-  const [showStatsDashboard, setShowStatsDashboard] = useState(false);
   const [showCollectionsPanel, setShowCollectionsPanel] = useState(false);
   const [showExportPanel, setShowExportPanel] = useState(false);
   const [advancedModes, setAdvancedModes] = useState({});
@@ -265,89 +291,58 @@ const App = () => {
           <div style={appStyles.resultsSection} ref={resultsRef}>
             {/* Top Controls */}
             <div style={appStyles.topControls}>
-              <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'center' }}>
+              <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', alignItems: 'center' }}>
                 <button
                   style={{
                     ...appStyles.filterButton,
-                    display: window.innerWidth <= 1024 ? 'block' : 'none',
+                    display: window.innerWidth <= 1024 ? 'inline-flex' : 'none',
                   }}
                   onClick={toggleSidebar}
+                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'var(--gold-lighter)')}
+                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'var(--cream-bg)')}
                 >
-                  ☰ Filters
+                  Filters
                 </button>
                 <SortDropdown currentSort={sortBy} onSortChange={setSortBy} />
                 <ViewModeToggle currentMode={viewMode} onModeChange={switchMode} />
+                
+                <div style={{ height: '24px', width: '1px', backgroundColor: 'var(--border-color)', margin: '0 0.5rem' }}></div>
+                
                 <button
-                  style={{
-                    padding: '0.5rem 1rem',
-                    backgroundColor: showTimeline ? '#c9a84c' : '#ddd',
-                    color: showTimeline ? 'white' : '#333',
-                    border: 'none',
-                    borderRadius: '6px',
-                    cursor: 'pointer',
-                    fontSize: '0.9rem',
-                    fontWeight: 500,
-                    transition: 'all 0.2s ease',
-                  }}
+                  style={appStyles.actionButton(showTimeline)}
                   onClick={() => setShowTimeline(!showTimeline)}
+                  onMouseEnter={(e) => {
+                    if (!showTimeline) e.currentTarget.style.backgroundColor = 'var(--gold-lighter)';
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!showTimeline) e.currentTarget.style.backgroundColor = 'var(--cream-bg)';
+                  }}
                 >
-                  {showTimeline ? '📊 Timeline On' : '📊 Timeline Off'}
+                  Timeline
                 </button>
                 <button
-                  style={{
-                    padding: '0.5rem 1rem',
-                    backgroundColor: showStatsDashboard ? '#c9a84c' : '#ddd',
-                    color: showStatsDashboard ? 'white' : '#333',
-                    border: 'none',
-                    borderRadius: '6px',
-                    cursor: 'pointer',
-                    fontSize: '0.9rem',
-                    fontWeight: 500,
-                    transition: 'all 0.2s ease',
-                  }}
-                  onClick={() => setShowStatsDashboard(!showStatsDashboard)}
-                >
-                  {showStatsDashboard ? '📈 Stats On' : '📈 Stats Off'}
-                </button>
-                <button
-                  style={{
-                    padding: '0.5rem 1rem',
-                    backgroundColor: showCollectionsPanel ? '#c9a84c' : '#ddd',
-                    color: showCollectionsPanel ? 'white' : '#333',
-                    border: 'none',
-                    borderRadius: '6px',
-                    cursor: 'pointer',
-                    fontSize: '0.9rem',
-                    fontWeight: 500,
-                    transition: 'all 0.2s ease',
-                  }}
+                  style={appStyles.actionButton(showCollectionsPanel)}
                   onClick={() => setShowCollectionsPanel(!showCollectionsPanel)}
+                  onMouseEnter={(e) => {
+                    if (!showCollectionsPanel) e.currentTarget.style.backgroundColor = 'var(--gold-lighter)';
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!showCollectionsPanel) e.currentTarget.style.backgroundColor = 'var(--cream-bg)';
+                  }}
                 >
-                  {showCollectionsPanel ? '📚 Collections On' : '📚 Collections Off'}
+                  Collections
                 </button>
                 <button
-                  style={{
-                    padding: '0.5rem 1rem',
-                    backgroundColor: '#8b7355',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '6px',
-                    cursor: 'pointer',
-                    fontSize: '0.9rem',
-                    fontWeight: 500,
-                    transition: 'all 0.2s ease',
-                  }}
+                  style={appStyles.exportButton}
                   onClick={() => setShowExportPanel(true)}
+                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'var(--primary-navy-dark)')}
+                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'var(--primary-navy)')}
                 >
-                  📤 Export
+                  Export
                 </button>
               </div>
             </div>
 
-            {/* Stats Dashboard */}
-            {showStatsDashboard && (
-              <StatsDashboard documents={allResults} />
-            )}
 
             {/* Collections Panel */}
             {showCollectionsPanel && (

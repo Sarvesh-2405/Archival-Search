@@ -5,119 +5,138 @@ import { SkeletonCard } from './SkeletonCard';
 const styles = {
   resultsContainer: {
     flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '1.5rem',
   },
   resultInfo: {
-    padding: '1rem 0',
-    color: '#666',
+    padding: '0 0.5rem',
+    color: 'var(--text-light)',
     fontSize: '0.95rem',
     fontWeight: 500,
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.5rem',
   },
   gridContainer: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
-    gap: '1.5rem',
+    gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))',
+    gap: '2rem',
     marginBottom: '2rem',
   },
-  // List view styles
   listContainer: {
     display: 'flex',
     flexDirection: 'column',
-    gap: '1rem',
+    gap: '1.5rem',
     marginBottom: '2rem',
   },
-  // Gallery view styles
   galleryContainer: {
     display: 'grid',
     gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
     gap: '1.5rem',
     marginBottom: '2rem',
   },
-  // Table view styles
   tableContainer: {
     backgroundColor: 'white',
-    border: '1px solid #c9a961',
-    borderRadius: '4px',
+    border: '1px solid var(--border-light)',
+    borderRadius: 'var(--radius-lg)',
     marginBottom: '2rem',
     overflow: 'hidden',
+    boxShadow: 'var(--shadow-premium)',
   },
   table: {
     width: '100%',
     borderCollapse: 'collapse',
-    fontFamily: 'Libre Baskerville, serif',
   },
   tableHeader: {
-    background: '#f4f1de',
-    borderBottom: '2px solid #c9a961',
+    background: 'var(--cream-bg)',
+    borderBottom: '2px solid var(--border-light)',
   },
   tableHeaderCell: {
-    padding: '12px 16px',
+    padding: '1rem 1.5rem',
     textAlign: 'left',
-    fontFamily: 'Cinzel, serif',
-    fontSize: '12px',
+    fontSize: '0.75rem',
     textTransform: 'uppercase',
-    letterSpacing: '0.5px',
-    color: '#0f1623',
+    letterSpacing: '0.05em',
+    color: 'var(--text-lighter)',
+    fontWeight: 700,
+  },
+  tableRow: (isHovered) => ({
+    borderBottom: '1px solid var(--border-light)',
+    cursor: 'pointer',
+    transition: 'var(--transition-fast)',
+    backgroundColor: isHovered ? 'var(--gold-lighter)' : 'white',
+  }),
+  tableCell: {
+    padding: '1rem 1.5rem',
+    fontSize: '0.9rem',
+    color: 'var(--text-main)',
     fontWeight: 500,
   },
-  tableRow: {
-    borderBottom: '1px solid #e8e6e1',
-    cursor: 'pointer',
-    transition: 'background-color 0.2s',
-  },
-  tableRowHover: {
-    backgroundColor: '#faf8f3',
-  },
-  tableCell: {
-    padding: '12px 16px',
-    fontSize: '13px',
-    color: '#0f1623',
-  },
-  // Masonry view styles
   masonryContainer: {
     columns: 3,
-    gap: '1rem',
+    gap: '1.5rem',
     marginBottom: '2rem',
   },
   masonryItem: {
     breakInside: 'avoid',
-    marginBottom: '1rem',
+    marginBottom: '1.5rem',
     display: 'inline-block',
     width: '100%',
   },
   emptyState: {
     textAlign: 'center',
-    padding: '3rem 1rem',
+    padding: '5rem 2rem',
     backgroundColor: 'white',
-    borderRadius: '8px',
-    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.05)',
+    borderRadius: 'var(--radius-lg)',
+    boxShadow: 'var(--shadow-premium)',
+    border: '1px solid var(--border-light)',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: '1.5rem',
   },
   emptyIcon: {
-    fontSize: '3rem',
-    marginBottom: '1rem',
+    fontSize: '4rem',
+    filter: 'grayscale(0.5)',
   },
   emptyTitle: {
-    fontSize: '1.2rem',
-    fontWeight: 600,
-    color: '#1a2744',
-    marginBottom: '0.5rem',
-    fontFamily: 'Playfair Display, serif',
+    fontSize: '2rem',
+    fontWeight: 700,
+    color: 'var(--primary-navy)',
+    marginBottom: '0',
   },
   emptyText: {
-    color: '#999',
-    marginBottom: '1rem',
+    color: 'var(--text-light)',
+    fontSize: '1.1rem',
+    maxWidth: '400px',
+    lineHeight: 1.6,
   },
   searchSuggestions: {
     textAlign: 'left',
-    display: 'inline-block',
-    backgroundColor: '#f5f0e8',
-    padding: '1rem',
-    borderRadius: '6px',
-    marginTop: '1rem',
+    display: 'inline-flex',
+    flexDirection: 'column',
+    backgroundColor: 'var(--gold-lighter)',
+    padding: '1.5rem 2rem',
+    borderRadius: 'var(--radius-md)',
+    gap: '0.75rem',
+    border: '1px solid var(--gold-light)',
   },
   suggestionList: {
-    listStylePosition: 'inside',
-    color: '#666',
-    fontSize: '0.9rem',
+    listStyle: 'none',
+    display: 'flex',
+    flexWrap: 'wrap',
+    gap: '0.75rem',
+    padding: 0,
+  },
+  suggestionItem: {
+    background: 'white',
+    padding: '0.4rem 0.8rem',
+    borderRadius: 'var(--radius-full)',
+    fontSize: '0.875rem',
+    fontWeight: 600,
+    color: 'var(--gold-accent)',
+    border: '1px solid var(--border-color)',
   },
 };
 
@@ -141,17 +160,17 @@ export const ResultsGrid = ({ results, isLoading, totalResults, paginationInfo, 
           <div style={styles.emptyIcon}>🔍</div>
           <h3 style={styles.emptyTitle}>No Results Found</h3>
           <p style={styles.emptyText}>
-            Try adjusting your search terms or filters to find what you're looking for.
+            We couldn't find anything matching your search. Try adjusting your terms or filters for better results.
           </p>
           <div style={styles.searchSuggestions}>
-            <p style={{ fontWeight: 600, marginBottom: '0.5rem' }}>Try searching for:</p>
-            <ul style={styles.suggestionList}>
-              <li>Map</li>
-              <li>Painting</li>
-              <li>Letter</li>
-              <li>Navigation</li>
-              <li>Trade</li>
-            </ul>
+            <p style={{ fontWeight: 700, color: 'var(--primary-navy)', marginBottom: '0.5rem', fontSize: '1rem' }}>
+              Suggested searches:
+            </p>
+            <div style={styles.suggestionList}>
+              {['Manuscript', 'Archival Map', 'Painting', 'Letter', 'Trade', 'Royal Diary'].map(term => (
+                <div key={term} style={styles.suggestionItem}>{term}</div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -213,31 +232,42 @@ export const ResultsGrid = ({ results, isLoading, totalResults, paginationInfo, 
                 {results.map((doc, idx) => (
                   <tr
                     key={doc.id}
-                    style={styles.tableRow}
+                    style={styles.tableRow(false)}
                     onClick={() => onViewDetails(doc)}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.backgroundColor = '#faf8f3';
+                      e.currentTarget.style.backgroundColor = 'var(--gold-lighter)';
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.backgroundColor = 'transparent';
+                      e.currentTarget.style.backgroundColor = 'white';
                     }}
                   >
                     <td style={styles.tableCell}>
-                      <div style={{ fontWeight: 500, marginBottom: '2px' }}>
+                      <div style={{ fontWeight: 600, color: 'var(--primary-navy)', marginBottom: '4px' }}>
                         {doc.title}
                       </div>
                       {doc.author && (
-                        <div style={{ fontSize: '11px', color: '#8b7355' }}>
+                        <div style={{ fontSize: '12px', color: 'var(--text-light)', fontStyle: 'italic' }}>
                           {doc.author}
                         </div>
                       )}
                     </td>
-                    <td style={styles.tableCell}>{doc.type}</td>
+                    <td style={styles.tableCell}>
+                      <span style={{ 
+                        padding: '4px 10px', 
+                        borderRadius: 'var(--radius-full)', 
+                        background: 'var(--cream-bg)',
+                        fontSize: '0.75rem',
+                        fontWeight: 700,
+                        textTransform: 'uppercase'
+                      }}>
+                        {doc.type}
+                      </span>
+                    </td>
                     <td style={styles.tableCell}>{doc.date}</td>
                     <td style={styles.tableCell}>{doc.place}</td>
                     <td style={styles.tableCell}>{doc.language}</td>
                     <td style={styles.tableCell}>
-                      <div style={{ maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                      <div style={{ maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', opacity: 0.8 }}>
                         {doc.holdingInstitution}
                       </div>
                     </td>

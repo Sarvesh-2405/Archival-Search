@@ -10,11 +10,11 @@ const ERAS = [
 ];
 
 const TYPE_COLORS = {
-  'Letter': '#d4af37',
-  'Map': '#8b7355',
-  'Report': '#c9a961',
-  'Diary': '#a68860',
-  'Document': '#9d8b5f'
+  'Letter': 'var(--gold-accent)',
+  'Map': 'var(--gold-accent)',
+  'Report': 'var(--gold-accent)',
+  'Diary': 'var(--gold-accent)',
+  'Document': 'var(--gold-accent)'
 };
 
 const styles = {

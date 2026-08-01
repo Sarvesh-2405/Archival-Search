@@ -76,124 +76,88 @@ export const FilterSidebar = ({
     <>
       {isOpen && (
         <div
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            zIndex: 99,
-            display: 'none',
-          }}
-          className={isOpen ? styles.sidebarOverlay : ''}
+          className={styles.overlay}
           onClick={onToggleSidebar}
         />
       )}
 
-      <aside className={`${styles.sidebar} ${isOpen ? styles.active : ''}`}>
+      <aside className={`${styles.sidebar} ${isOpen ? styles.open : ''}`}>
         <div className={styles.sidebarHeader}>
-          <h2 className={styles.sidebarTitle}>Filters</h2>
-          <button className={styles.clearButton} onClick={onClearAllFilters}>
+          <h2>Filters</h2>
+          <button className={styles.clearAll} onClick={onClearAllFilters}>
             Clear All
           </button>
         </div>
 
         <div className={styles.sidebarContent}>
           {/* Document Type Filter */}
-          <div className={styles.filterGroupContainer}>
-            <FilterGroup
-              title="Document Type"
-              options={types}
-              selectedValues={filters.types || []}
-              onChange={(value) => onToggleFilter('types', value)}
-            />
-          </div>
+          <FilterGroup
+            title="Document Type"
+            options={types}
+            selectedValues={filters.types || []}
+            onChange={(value) => onToggleFilter('types', value)}
+          />
 
           {/* Date Range Filter */}
-          <div className={styles.filterGroupContainer}>
-            <div
-              style={{
-                fontWeight: 600,
-                fontSize: '0.95rem',
-                color: '#1a2744',
-                marginBottom: '0.75rem',
-              }}
-            >
-              Date Range
+          <div className={styles.filterGroup}>
+            <h3>Date Range</h3>
+            <div className={styles.dateRange}>
+              <div className={styles.dateInputs}>
+                <input
+                  type="number"
+                  placeholder="From Year"
+                  value={dateFrom}
+                  onChange={(e) => setDateFrom(e.target.value)}
+                  onBlur={handleDateChange}
+                  className={styles.dateInput}
+                />
+                <span style={{ color: 'var(--text-lighter)' }}>–</span>
+                <input
+                  type="number"
+                  placeholder="To Year"
+                  value={dateTo}
+                  onChange={(e) => setDateTo(e.target.value)}
+                  onBlur={handleDateChange}
+                  className={styles.dateInput}
+                />
+              </div>
+              <small style={{ color: 'var(--text-lighter)', fontSize: '0.75rem', fontStyle: 'italic' }}>
+                Supports negative years (BC)
+              </small>
             </div>
-            <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.75rem' }}>
-              <input
-                type="number"
-                placeholder="From Year"
-                value={dateFrom}
-                onChange={(e) => setDateFrom(e.target.value)}
-                onBlur={handleDateChange}
-                style={{
-                  flex: 1,
-                  padding: '0.5rem',
-                  border: '1px solid #ddd',
-                  borderRadius: '4px',
-                  fontSize: '0.85rem',
-                }}
-              />
-              <input
-                type="number"
-                placeholder="To Year"
-                value={dateTo}
-                onChange={(e) => setDateTo(e.target.value)}
-                onBlur={handleDateChange}
-                style={{
-                  flex: 1,
-                  padding: '0.5rem',
-                  border: '1px solid #ddd',
-                  borderRadius: '4px',
-                  fontSize: '0.85rem',
-                }}
-              />
-            </div>
-            <small style={{ color: '#999' }}>Supports negative years (BC)</small>
           </div>
 
           {/* Region Filter */}
-          <div className={styles.filterGroupContainer}>
-            <FilterGroup
-              title="Region"
-              options={regions}
-              selectedValues={filters.regions || []}
-              onChange={(value) => onToggleFilter('regions', value)}
-            />
-          </div>
+          <FilterGroup
+            title="Region"
+            options={regions}
+            selectedValues={filters.regions || []}
+            onChange={(value) => onToggleFilter('regions', value)}
+          />
 
           {/* Language Filter */}
-          <div className={styles.filterGroupContainer}>
-            <FilterGroup
-              title="Language"
-              options={languages}
-              selectedValues={filters.languages || []}
-              onChange={(value) => onToggleFilter('languages', value)}
-            />
-          </div>
+          <FilterGroup
+            title="Language"
+            options={languages}
+            selectedValues={filters.languages || []}
+            onChange={(value) => onToggleFilter('languages', value)}
+          />
 
           {/* Institution Filter */}
-          <div className={styles.filterGroupContainer}>
-            <FilterGroup
-              title="Holding Institution"
-              options={institutions}
-              selectedValues={filters.institutions || []}
-              onChange={(value) => onToggleFilter('institutions', value)}
-            />
-          </div>
+          <FilterGroup
+            title="Holding Institution"
+            options={institutions}
+            selectedValues={filters.institutions || []}
+            onChange={(value) => onToggleFilter('institutions', value)}
+          />
 
           {/* Subject Filter */}
-          <div className={styles.filterGroupContainer}>
-            <FilterGroup
-              title="Subjects"
-              options={subjects}
-              selectedValues={filters.subjects || []}
-              onChange={(value) => onToggleFilter('subjects', value)}
-            />
-          </div>
+          <FilterGroup
+            title="Subjects"
+            options={subjects}
+            selectedValues={filters.subjects || []}
+            onChange={(value) => onToggleFilter('subjects', value)}
+          />
         </div>
       </aside>
     </>

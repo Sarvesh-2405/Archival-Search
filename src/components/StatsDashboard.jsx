@@ -122,13 +122,13 @@ function calculateStats(documents) {
 
 function getColor(type) {
   const colors = {
-    'Letter': '#d4af37',
-    'Map': '#8b7355',
-    'Report': '#c9a961',
+    'Letter': 'var(--gold-accent)',
+    'Map': 'var(--primary-navy)',
+    'Report': '#4a6fa5',
     'Diary': '#a68860',
-    'Document': '#9d8b5f'
+    'Document': '#6b7280'
   };
-  return colors[type] || '#8b7355';
+  return colors[type] || 'var(--gold-accent)';
 }
 
 function PieChart({ data }) {
@@ -187,7 +187,7 @@ function BarChart({ data }) {
 
         return (
           <g key={label}>
-            <rect x={x} y={y} width={barWidth - 10} height={barHeight} fill="#d4af37" />
+            <rect x={x} y={y} width={barWidth - 10} height={barHeight} fill="var(--gold-accent)" />
             <text x={x + (barWidth - 10) / 2} y={height - 3} textAnchor="middle" fontSize="10" fill="#8b7355">
               {value}
             </text>
@@ -213,7 +213,7 @@ function TimelineChart({ data }) {
 
         return (
           <g key={year}>
-            <rect x={x} y={y} width={barWidth} height={barHeight} fill="#c9a961" />
+            <rect x={x} y={y} width={barWidth} height={barHeight} fill="var(--gold-accent)" />
             <text x={x + barWidth / 2} y="95" textAnchor="middle" fontSize="10" fill="#8b7355">
               {year}
             </text>

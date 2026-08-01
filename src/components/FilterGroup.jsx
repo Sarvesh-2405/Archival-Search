@@ -2,105 +2,108 @@ import React, { useState } from 'react';
 
 const styles = {
   groupContainer: {
-    marginBottom: '1.5rem',
+    marginBottom: '2rem',
   },
   groupHeader: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
     cursor: 'pointer',
-    padding: '0.75rem 0',
+    padding: '0.5rem 0',
     userSelect: 'none',
+    borderBottom: '1px solid var(--border-light)',
+    marginBottom: '1rem',
   },
   groupTitle: {
-    fontWeight: 600,
-    fontSize: '0.95rem',
-    color: '#1a2744',
+    fontWeight: 700,
+    fontSize: '0.9rem',
+    color: 'var(--primary-navy)',
+    textTransform: 'uppercase',
+    letterSpacing: '0.05em',
   },
-  toggleIcon: {
-    fontSize: '1.2rem',
-    transition: 'transform 0.2s ease',
-  },
-  toggleIconOpen: {
-    transform: 'rotate(180deg)',
-  },
-  content: {
-    display: 'flex',
+  toggleIcon: (isOpen) => ({
+    fontSize: '0.8rem',
+    transition: 'var(--transition-fast)',
+    transform: isOpen ? 'rotate(180deg)' : 'rotate(0)',
+    opacity: 0.5,
+  }),
+  content: (isOpen) => ({
+    display: isOpen ? 'flex' : 'none',
     flexDirection: 'column',
     gap: '0.5rem',
-    marginTop: '0.75rem',
-  },
-  contentHidden: {
-    display: 'none',
-  },
-  option: {
+  }),
+  option: (isActive) => ({
     display: 'flex',
     alignItems: 'center',
-    gap: '0.5rem',
-    padding: '0.5rem 0',
-  },
+    gap: '0.75rem',
+    padding: '0.625rem 0.875rem',
+    borderRadius: 'var(--radius-md)',
+    cursor: 'pointer',
+    transition: 'var(--transition-fast)',
+    backgroundColor: isActive ? 'var(--primary-navy)' : 'var(--cream-bg)',
+    color: isActive ? 'white' : 'var(--text-main)',
+    border: '1px solid transparent',
+  }),
   checkbox: {
     cursor: 'pointer',
-    width: '18px',
-    height: '18px',
+    width: '16px',
+    height: '16px',
+    borderRadius: '4px',
+    border: '1px solid var(--border-color)',
+    accentColor: 'var(--gold-accent)',
   },
   label: {
     cursor: 'pointer',
-    fontSize: '0.9rem',
+    fontSize: '0.875rem',
     flex: 1,
+    fontWeight: 500,
   },
-  count: {
-    fontSize: '0.8rem',
-    color: '#999',
-    marginLeft: '0.5rem',
-  },
+  count: (isActive) => ({
+    fontSize: '0.75rem',
+    fontWeight: 700,
+    opacity: isActive ? 1 : 0.6,
+  }),
 };
 
 export const FilterGroup = ({ title, options = [], onChange, selectedValues = [] }) => {
   const [isOpen, setIsOpen] = useState(true);
 
-  const handleToggle = () => {
-    setIsOpen(!isOpen);
-  };
-
-  const handleChange = (value) => {
-    onChange(value);
-  };
-
   return (
     <div style={styles.groupContainer}>
-      <div style={styles.groupHeader} onClick={handleToggle}>
+      <div style={styles.groupHeader} onClick={() => setIsOpen(!isOpen)}>
         <span style={styles.groupTitle}>{title}</span>
-        <span
-          style={{
-            ...styles.toggleIcon,
-            ...(isOpen ? styles.toggleIconOpen : {}),
-          }}
-        >
-          ▼
-        </span>
+        <span style={styles.toggleIcon(isOpen)}>▼</span>
       </div>
 
-      <div
-        style={{
-          ...styles.content,
-          ...(isOpen ? {} : styles.contentHidden),
-        }}
-      >
-        {options.map((option) => (
-          <label key={option.value} style={styles.option}>
-            <input
-              type="checkbox"
-              style={styles.checkbox}
-              checked={selectedValues.includes(option.value)}
-              onChange={() => handleChange(option.value)}
-            />
-            <span style={styles.label}>{option.label}</span>
-            <span style={styles.count}>({option.count})</span>
-          </label>
-        ))}
+      <div style={styles.content(isOpen)}>
+        {options.map((option) => {
+          const isActive = selectedValues.includes(option.value);
+          return (
+            <label 
+              key={option.value} 
+              style={styles.option(isActive)}
+              onMouseEnter={(e) => {
+                if (!isActive) e.currentTarget.style.backgroundColor = 'var(--gold-lighter)';
+              }}
+              onMouseLeave={(e) => {
+                if (!isActive) e.currentTarget.style.backgroundColor = 'var(--cream-bg)';
+              }}
+            >
+              <input
+                type="checkbox"
+                style={styles.checkbox}
+                checked={isActive}
+                onChange={() => onChange(option.value)}
+              />
+              <span style={styles.label}>{option.label}</span>
+              <span style={styles.count(isActive)}>{option.count}</span>
+            </label>
+          );
+        })}
         {options.length === 0 && (
-          <p style={{ fontSize: '0.85rem', color: '#999' }}>No options available</p>
+          <p style={{ fontSize: '0.85rem', color: 'var(--text-lighter)', fontStyle: 'italic', padding: '0 0.5rem' }}>
+            No options available
+          </p>
         )}
       </div>
     </div>
